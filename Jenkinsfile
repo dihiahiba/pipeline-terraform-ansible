@@ -55,10 +55,7 @@ pipeline {
                         ansible_ssh_private_key_file=${env.SSH_KEY}
                     """)
 
-                    // Vérifier les permissions de la clé SSH
-                    sh '''
-                    chmod 400 ${env.SSH_KEY}
-                    '''
+                
 
                     // Exécuter le playbook Ansible pour configurer l'instance
                     sh '''
