@@ -48,11 +48,13 @@ pipeline {
         stage('Ansible Setup') {
             steps {
                 script {
+                    sh '''
+                    cd Ansible
                     // Lire l'IP publique de l'instance
                     def public_ip = readFile('hosts.ini').trim()
 
                     // Exécuter le playbook Ansible pour configurer l'instance
-                    sh '''
+                    
                     ansible-playbook -i hosts.ini playbook.yml
                     '''
                 }
