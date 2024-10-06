@@ -22,7 +22,7 @@ pipeline {
                 script {
                     // Appliquer la configuration Terraform et créer l'instance
                     sh '''
-                    cd terraform-infra-aws/Terraform
+                    cd Terraform
                     terraform apply -auto-approve
                     '''
                     
