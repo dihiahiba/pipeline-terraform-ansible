@@ -77,7 +77,7 @@ resource "aws_instance" "my_server" {
   subnet_id              = aws_subnet.my_subnet.id
 
   tags = {
-    Name = "MyServer"
+    Name = "MariamServer"
   }
 
   # Provisioning pour sauvegarder les infos de l'instance dans S3
