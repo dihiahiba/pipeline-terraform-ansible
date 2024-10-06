@@ -6,7 +6,6 @@ resource "aws_vpc" "my_vpc" {
     Name = "MyVPC"
   }
 }
-
 # Création d'une Internet Gateway
 resource "aws_internet_gateway" "my_gateway" {
   vpc_id = aws_vpc.my_vpc.id
@@ -15,7 +14,6 @@ resource "aws_internet_gateway" "my_gateway" {
     Name = "MariamGateway"
   }
 }
-
 # Création d'un sous-réseau public
 resource "aws_subnet" "my_subnet" {
   vpc_id                  = aws_vpc.my_vpc.id
