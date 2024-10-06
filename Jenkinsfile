@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-        // Chemin vers la clé SSH
+        AWS_ACCESS_KEY_ID = credentials('jenkins-aws') // Utilise l'ID du credential
+        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws') // L'ID de credential est utilisé pour les deux clés
         SSH_KEY               = '~/.ssh/mariam-key.pem'   // Chemin de la clé SSH privée
     }
     stages {
