@@ -1,0 +1,26 @@
+---
+- hosts: ec2
+  become: yes
+  tasks:
+    - name: Installer Apache et PHP
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - apache2
+        - php
+        - libapache2-mod-php
+
+    - name: Copier le fichier index.php vers /var/www/html/
+      copy:
+        src: /Ansible/index.php
+        dest: /var/www/html/index.php
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Redémarrer Apache
+      service:
+        name: apache2
+        state: restarted
