@@ -10,7 +10,7 @@ pipeline {
                 script {
                     // Initialiser Terraform
                     sh '''
-                    cd terraform-infra-aws/Terraform
+                    cd Terraform
                     terraform init
                     '''
                 }
