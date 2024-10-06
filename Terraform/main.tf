@@ -53,13 +53,13 @@ resource "aws_security_group" "my_security_group" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Autorise le SSH depuis n'importe quelle IP
+    cidr_blocks = ["0.0.0.0/0"] 
   }
 
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1" # Tout le trafic sortant autorisé
+    protocol    = "-1" 
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -70,15 +70,14 @@ resource "aws_security_group" "my_security_group" {
 
 # Création d'une instance EC2
 resource "aws_instance" "my_server" {
-  ami                    = "ami-08eb150f611ca277f"  # Remplace avec l'AMI souhaitée
+  ami                    = "ami-08eb150f611ca277f" 
   instance_type          = "t3.micro"
-  key_name               = "mariam-key"            # Ta clé existante
-  vpc_security_group_ids = [aws_security_group.my_security_group.id]  # Utiliser l'ID du groupe de sécurité
+  key_name               = "mariam-key"           
+  vpc_security_group_ids = [aws_security_group.my_security_group.id]  
   subnet_id              = aws_subnet.my_subnet.id
 
   tags = {
-    Environment = "dev"
-    Name = "${var.name}-server"
+    Name = "MariamServer"
   }
 
  
