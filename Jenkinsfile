@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        AWS_ACCESS_KEY_ID = credentials('jenkins-aws') // ID de la clé d'accès
-        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws') // ID de la clé secrète
-        SSH_KEY = '/home/jenkins/.ssh/mariam-key.pem' // Chemin vers la clé SSH privée
+        AWS_ACCESS_KEY_ID = credentials('jenkins-aws') // Utilise l'ID du credential
+        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws') // L'ID de credential est utilisé pour les deux clés
+        SSH_KEY               = '/home/jenkins/.ssh/mariam-key.pem'   // Chemin de la clé SSH privée
     }
     stages {
         stage('Terraform Init') {
@@ -29,12 +29,18 @@ pipeline {
                     
                     // Récupérer l'adresse IP publique de l'instance EC2
                     def public_ip = sh(script: '''
-                    cd Terraform
                     terraform output -raw instance_public_ip
                     ''', returnStdout: true).trim()
                     
-                    // Écrire l'IP publique dans un fichier pour l'utiliser avec Ansible
-                    writeFile(file: 'public_ip.txt', text: public_ip)
+                    // Ajouter l'IP publique au fichier d'inventaire Ansible
+                    writeFile(file: 'hosts.ini', text: """
+                        [ec2]
+                        ${public_ip}
+
+                        [ec2:vars]
+                        ansible_user=ubuntu
+                        ansible_ssh_private_key_file=${env.SSH_KEY}
+                    """, append: true) // Ajouter à la fin du fichier
                 }
             }
         }
@@ -43,23 +49,7 @@ pipeline {
             steps {
                 script {
                     // Lire l'IP publique de l'instance
-                    def public_ip = readFile('public_ip.txt').trim()
-
-                    // Créer le fichier d'inventaire Ansible pour l'instance EC2
-                    writeFile(file: 'hosts.ini', text: """
-                        [ec2]
-                        ${public_ip}
-
-                        [ec2:vars]
-                        ansible_user=ubuntu
-                        ansible_ssh_private_key_file=${env.SSH_KEY}
-                    """)
-                     // Vérifier les permissions de la clé SSH
-                    sh '''
-                    chmod 400 ${env.SSH_KEY}
-                    '''
-
-                
+                    def public_ip = readFile('hosts.ini').trim()
 
                     // Exécuter le playbook Ansible pour configurer l'instance
                     sh '''
