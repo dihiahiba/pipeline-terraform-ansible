@@ -14,7 +14,7 @@
 
     - name: Copier le fichier index.php vers /var/www/html/
       copy:
-        src: /Ansible/index.php
+        src: index.php
         dest: /var/www/html/index.php
         owner: www-data
         group: www-data
