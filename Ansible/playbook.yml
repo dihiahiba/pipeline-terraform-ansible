@@ -1,4 +1,4 @@
-- name: This sets up an httpd webserver
+- name: This sets up an apache2 webserver
   hosts: ec2
   become: yes
   remote_user: ubuntu
@@ -10,7 +10,7 @@
   - name: "Install httpd and php packages"
     package:
         name:
-          - "httpd"
+          - "apache2"
           - "php"
         state: present
   - name: "copy code from GitHub"
@@ -19,7 +19,7 @@
         dest: "/var/www/html/index.php"
   - name: "Start httpd services"
     service:
-        name: httpd
+        name: apache2
         state: started
   - name: Yum Install Packages
     yum: name={{item}} state=latest
