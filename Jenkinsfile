@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        AWS_ACCESS_KEY_ID = credentials('jenkins-aws') // Utilise l'ID du credential AWS
-        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws') // Utilise l'ID du credential AWS
-        SSH_KEY = '/home/jenkins/.ssh/mariam-key.pem' // Chemin de la clé privée SSH
+        AWS_ACCESS_KEY_ID = credentials('jenkins-aws') 
+        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws') 
+        SSH_KEY = '/home/jenkins/.ssh/mariam-key.pem' 
     }
     stages {
         stage('Terraform Init') {
