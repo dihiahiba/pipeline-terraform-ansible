@@ -1,26 +1,35 @@
----
-- hosts: ec2
+- name: This sets up an httpd webserver
+  hosts: ec2
   become: yes
+  remote_user: ubuntu
+  gather_facts: true
+  vars:
+    ansible_ssh_private_key_file: "/home/jenkins/.ssh/mariam-key.pem"  
+    ansible_ssh_user: "ec2-user"
   tasks:
-    - name: Installer Apache et PHP
-      apt:
-        name: "{{ item }}"
+  - name: "Install httpd and php packages"
+    package:
+        name:
+          - "httpd"
+          - "php"
         state: present
-        update_cache: yes
-      loop:
-        - apache2
-        - php
-        - libapache2-mod-php
+  - name: "copy code from GitHub"
+    get_url:
+        url: https://www.shubhammishra.in
+        dest: "/var/www/html/index.php"
+  - name: "Start httpd services"
+    service:
+        name: httpd
+        state: started
+  - name: Yum Install Packages
+    yum: name={{item}} state=latest
+    with_items:
+           - wget
+  - name: terraform install
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/0.9.1/terraform_0.9.1_linux_amd64.zip
+      dest: /usr/bin
+      remote_src: True
 
-    - name: Copier le fichier index.php vers /var/www/html/
-      copy:
-        src: index.php
-        dest: /var/www/html/index.php
-        owner: www-data
-        group: www-data
-        mode: '0644'
 
-    - name: Redémarrer Apache
-      service:
-        name: apache2
-        state: restarted
+      
