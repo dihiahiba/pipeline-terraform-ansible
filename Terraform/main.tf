@@ -91,5 +91,11 @@ resource "aws_instance" "my_server" {
     EOT
   }
 }
+# Output pour récupérer l'adresse IP publique de l'instance EC2
+output "instance_public_ip" {
+  value = MariamServer.public_ip
+  description = "The public IP address of the EC2 instance"
+}
+
 
 
