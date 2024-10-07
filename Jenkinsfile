@@ -41,6 +41,7 @@ pipeline {
                     [ec2:vars]
                     ansible_user=ubuntu
                     ansible_ssh_private_key_file=${env.SSH_KEY}
+                    ansible_ssh_common_args='-o StrictHostKeyChecking=no'
                     """
                 }
             }
@@ -52,7 +53,7 @@ pipeline {
                     // Exécuter le playbook Ansible pour configurer l'instance
                     sh '''
                     cd Ansible
-                    ansible-playbook -i ../hosts.ini playbook.yml
+                    ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ../hosts.ini playbook.yml
                     '''
                 }
             }
