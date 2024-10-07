@@ -8,29 +8,30 @@
     ansible_ssh_user: "ubuntu"
     ansible_python_interpreter: "/usr/bin/python3"
   tasks:
-  - name: "Install httpd and php packages"
-    package:
+    - name: "Install apache2 and php packages"
+      apt:
         name:
           - "apache2"
           - "php"
         state: present
-  - name: "copy code from GitHub"
-    get_url:
+
+    - name: "Copy code from GitHub"
+      get_url:
         url: https://www.shubhammishra.in
         dest: "/var/www/html/index.php"
-  - name: "Start httpd services"
-    service:
+
+    - name: "Start apache2 service"
+      service:
         name: apache2
         state: started
-  - name: apt Install Packages
-    yum: name={{item}} state=latest
-    with_items:
-           - wget
-  - name: terraform install
-    unarchive:
-      src: https://releases.hashicorp.com/terraform/0.9.1/terraform_0.9.1_linux_amd64.zip
-      dest: /usr/bin
-      remote_src: True
 
+    - name: "Install wget package"
+      apt:
+        name: wget
+        state: present
 
-      
+    - name: "Install Terraform"
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/0.9.1/terraform_0.9.1_linux_amd64.zip
+        dest: /usr/bin
+        remote_src: True
