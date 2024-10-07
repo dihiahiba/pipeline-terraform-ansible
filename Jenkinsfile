@@ -29,21 +29,23 @@ pipeline {
                     terraform apply -auto-approve
                     '''
                     
-                    // Récupérer l'adresse IP publique de l'instance EC2 créée
-                    def public_ip = sh(script: '''
-                    cd Terraform
-                    terraform output -raw instance_public_ip
-                    ''', returnStdout: true).trim()
+            
+            // Récupérer l'adresse IP publique de l'instance EC2
+            def public_ip = sh(script: '''
+            terraform output -raw instance_public_ip
+            ''', returnStdout: true).trim()
 
-                    // Créer un fichier d'inventaire pour Ansible avec l'adresse IP
-                    writeFile file: 'hosts.ini', text: """
-                    [ec2]
-                    ${public_ip}
+            // Créer le fichier d'inventaire avec le bon format
+            writeFile file: 'hosts.ini', text: """
+            [ec2]
+            ${public_ip}
 
-                    [ec2:vars]
-                    ansible_user=ubuntu
-                    ansible_ssh_private_key_file=${env.SSH_KEY}
-                    """
+            [ec2:vars]
+            ansible_user=ubuntu
+            ansible_ssh_private_key_file=${env.SSH_KEY}
+            """
+                    
+                    
                 }
             }
         }
