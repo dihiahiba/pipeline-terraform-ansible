@@ -29,6 +29,10 @@
       apt:
         name: wget
         state: present
+    - name: "Install unzip package"
+      apt:
+        name: unzip
+        state: present
 
     - name: "Install Terraform"
       unarchive:
