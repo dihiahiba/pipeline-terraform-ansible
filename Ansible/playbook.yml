@@ -4,7 +4,7 @@
   remote_user: ubuntu
   gather_facts: true
   vars:
-    ansible_ssh_private_key_file: "/home/jenkins/.ssh/mariam-key.pem"  
+    ansible_ssh_private_key_file: "/home/jenkins/.ssh/hiba-key.pem"  
     ansible_ssh_user: "ubuntu"
     ansible_python_interpreter: "/usr/bin/python3"
   tasks:
