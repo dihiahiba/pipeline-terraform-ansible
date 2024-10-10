@@ -3,7 +3,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('jenkins-aws') 
         AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws') 
-        SSH_KEY = '/home/jenkins/.ssh/mariam-key.pem' 
+        SSH_KEY = '/home/jenkins/.ssh/hiba-key.pem' 
     }
     stages {
         stage('Terraform Init') {
