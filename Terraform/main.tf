@@ -11,7 +11,7 @@ resource "aws_internet_gateway" "my_gateway" {
   vpc_id = aws_vpc.my_vpc.id
 
   tags = {
-    Name = "MariamGateway"
+    Name = "HibaGateway"
   }
 }
 # Création d'un sous-réseau public
@@ -21,7 +21,7 @@ resource "aws_subnet" "my_subnet" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "MariamSubnet"
+    Name = "HibaSubnet"
   }
 }
 
@@ -35,7 +35,7 @@ resource "aws_route_table" "my_route_table" {
   }
 
   tags = {
-    Name = "MariamRouteTable"
+    Name = "HibaRouteTable"
   }
 }
 
@@ -72,12 +72,12 @@ resource "aws_security_group" "my_security_group" {
 resource "aws_instance" "my_server" {
   ami                    = "ami-08eb150f611ca277f" 
   instance_type          = "t3.micro"
-  key_name               = "mariam-key"           
+  key_name               = "hiba-key"           
   vpc_security_group_ids = [aws_security_group.my_security_group.id]  
   subnet_id              = aws_subnet.my_subnet.id
 
   tags = {
-    Name = "MariamServer"
+    Name = "HibaServer"
   }
 
  
